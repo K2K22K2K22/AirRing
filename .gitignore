@@ -47,9 +47,25 @@ cmake-build-*/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
-Makefile
+*/Makefile
 install_manifest.txt
 compile_commands.json
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# PlatformIO
+.pio/
+
+# Local data and models
+desktop/data/
+desktop/models/*.pt
+desktop/models/*.npz
+.env
 
 # Temporary files
 *.tmp
