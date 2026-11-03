@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "airring-desktop"
+version = "0.1.0"
+description = "Desktop companion for the AirRing wearable input device"
+requires-python = ">=3.10"
+dependencies = [
+  "bleak>=0.22.3,<2",
+  "numpy>=1.26,<3",
+  "PyAutoGUI>=0.9.54,<1"
+]
+
+[project.optional-dependencies]
+ai = ["torch>=2.3,<3"]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+airring = "airring.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
