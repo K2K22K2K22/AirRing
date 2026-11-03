@@ -8,12 +8,13 @@ import numpy as np
 from bleak import BleakClient, BleakScanner
 
 from airring.config import (
+    DATASET_PATH,
     DEVICE_NAME_PREFIX,
     GESTURE_CLASSES,
+    MIN_RECORDINGS_PER_CLASS,
+    PACKET_WINDOW,
     SAMPLE_RATE_HZ,
     SENSOR_UUID,
-    DATASET_PATH,
-    PACKET_WINDOW,
 )
 from airring.packet import decode_packet
 
@@ -31,20 +32,24 @@ async def collect(repetitions: int, output: Path) -> None:
 
     async with BleakClient(device, timeout=10.0) as client:
         active = False
+        saw_ready_sample = False
         frames: list[tuple[float, ...]] = []
         ready = asyncio.Event()
 
         def on_notify(_sender: int, data: bytearray) -> None:
-            nonlocal active
+            nonlocal active, saw_ready_sample
             if not active:
                 return
             try:
                 sample = decode_packet(data)
-                frames.append(sample.features)
-                if len(frames) >= PACKET_WINDOW:
-                    ready.set()
             except ValueError:
                 return
+            if not sample.sensor_ready:
+                return
+            saw_ready_sample = True
+            frames.append(sample.features)
+            if len(frames) >= PACKET_WINDOW:
+                ready.set()
 
         await client.start_notify(SENSOR_UUID, on_notify)
         print(f"Connected to {device.name}. Each recording lasts about one second.")
@@ -63,6 +68,10 @@ async def collect(repetitions: int, output: Path) -> None:
                 try:
                     await asyncio.wait_for(ready.wait(), timeout=2.5)
                 except asyncio.TimeoutError:
+                    if not saw_ready_sample:
+                        raise RuntimeError(
+                            "MPU6050 is unavailable. Check wiring and retry."
+                        ) from None
                     print("Not enough sensor samples. Repeat this trial.")
                     continue
                 finally:
@@ -93,8 +102,8 @@ def main() -> None:
     parser.add_argument("--repetitions", type=int, default=25)
     parser.add_argument("--output", type=Path, default=DATASET_PATH)
     args = parser.parse_args()
-    if args.repetitions < 5:
-        parser.error("Use at least five repetitions per gesture")
+    if args.repetitions < MIN_RECORDINGS_PER_CLASS:
+        parser.error(f"Use at least {MIN_RECORDINGS_PER_CLASS} repetitions per gesture")
     asyncio.run(collect(args.repetitions, args.output))
 
 

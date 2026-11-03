@@ -61,8 +61,8 @@ class GestureRecognizer:
                 raise ValueError(f"missing checkpoint fields: {', '.join(sorted(missing))}")
 
             classes = list(checkpoint["classes"])
-            if len(classes) != len(GESTURE_CLASSES) or set(classes) != set(GESTURE_CLASSES):
-                raise ValueError("checkpoint classes do not match the six AirRing gestures")
+            if tuple(classes) != tuple(GESTURE_CLASSES):
+                raise ValueError("checkpoint classes must match GESTURE_CLASSES in order")
             expected = {
                 "input_size": MODEL_INPUT_SIZE,
                 "hidden_size": MODEL_HIDDEN_SIZE,

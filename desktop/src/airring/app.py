@@ -90,7 +90,7 @@ class AirRingApp:
     def _ai_status(self) -> str:
         if self.recognizer.enabled:
             return "Model loaded"
-        if self.recognizer.error:
+        if self.recognizer.error and self.recognizer.error != "No trained model":
             return self.recognizer.error
         return "Train a model to enable AI gestures"
 
@@ -129,6 +129,7 @@ class AirRingApp:
                     self.connected = False
                     self.controller.disconnect()
                     self.recognizer.reset()
+                    self.calibration_var.set("Disconnected")
             elif kind == "sample" and isinstance(value, SensorSample):
                 self._handle_sample(value)
 
