@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171b19">
+  <meta name="description" content="Set up, connect, calibrate and test your AirRing wearable air mouse.">
+  <title>AirRing Setup Station</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/airring-mark.svg">
+  <link rel="stylesheet" href="./src/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="AirRing Setup Station home">
+        <span class="brand-mark"><span></span></span>
+        <span class="brand-word">AIRRING<span> / SETUP STATION</span></span>
+      </a>
+      <div class="topbar-right">
+        <div class="connection-pill" id="connectionPill"><span class="status-dot"></span><span id="connectionLabel">Not connected</span></div>
+        <a class="top-link" href="https://github.com/K2K22K2K22/AirRing" target="_blank" rel="noreferrer">Repository <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+
+    <div class="workspace" id="top">
+      <aside class="sidebar">
+        <div class="sidebar-intro">
+          <span class="eyebrow">DEVICE WORKSPACE</span>
+          <h1>Get your<br>AirRing ready.</h1>
+          <p>From the first wire to a tuned pointer.</p>
+        </div>
+        <nav class="step-nav" aria-label="Setup sections">
+          <a class="step-link active" href="#overview" data-step="overview"><span class="step-number">00</span><span>Overview</span><span class="step-state">●</span></a>
+          <a class="step-link" href="#parts" data-step="parts"><span class="step-number">01</span><span>Parts & tools</span><span class="step-state"></span></a>
+          <a class="step-link" href="#wiring" data-step="wiring"><span class="step-number">02</span><span>Wiring</span><span class="step-state"></span></a>
+          <a class="step-link" href="#firmware" data-step="firmware"><span class="step-number">03</span><span>Flash firmware</span><span class="step-state"></span></a>
+          <a class="step-link" href="#connect" data-step="connect"><span class="step-number">04</span><span>Connect device</span><span class="step-state"></span></a>
+          <a class="step-link" href="#readings" data-step="readings"><span class="step-number">05</span><span>Live readings</span><span class="step-state"></span></a>
+          <a class="step-link" href="#calibration" data-step="calibration"><span class="step-number">06</span><span>Calibration</span><span class="step-state"></span></a>
+          <a class="step-link" href="#cursor-lab" data-step="cursor-lab"><span class="step-number">07</span><span>Cursor lab</span><span class="step-state"></span></a>
+          <a class="step-link" href="#contacts" data-step="contacts"><span class="step-number">08</span><span>Contact test</span><span class="step-state"></span></a>
+          <a class="step-link" href="#finish" data-step="finish"><span class="step-number">09</span><span>Save & use</span><span class="step-state"></span></a>
+        </nav>
+        <div class="sidebar-foot">
+          <div class="privacy-mark"><span class="privacy-icon">⌂</span><span><strong>Local by design</strong><small>Readings stay in this browser.</small></span></div>
+          <span class="version-label">AIRRING SETUP · 1.0.0</span>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <section class="hero-section" id="overview">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-line"></span> YOUR FIRST RUN</div>
+            <h2>Make the motion<br><em>feel like yours.</em></h2>
+            <p class="hero-description">Build the wearable, check the sensor, map your wrist movement and save a calibration that works with the AirRing desktop app.</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#parts">Start setup <span>↘</span></a>
+              <button class="button button-quiet" id="demoButton" type="button"><span class="play-icon">▶</span> Try the interface</button>
+            </div>
+            <div class="hero-note"><span class="note-mark">i</span> For live Bluetooth readings, use Chrome or Edge on a secure page.</div>
+          </div>
+          <div class="hero-art" aria-label="Illustration of AirRing sensor and wrist motion">
+            <div class="art-orbit orbit-one"></div>
+            <div class="art-orbit orbit-two"></div>
+            <div class="art-axis axis-x"><span>X</span></div>
+            <div class="art-axis axis-y"><span>Y</span></div>
+            <div class="art-center"><span class="art-ring"></span><span class="art-core"></span><span class="art-label">IMU / 6 AXIS</span></div>
+            <div class="art-coordinate coord-one">+ 50 HZ</div>
+            <div class="art-coordinate coord-two">ESP32 · BLE</div>
+            <div class="art-caption">WRIST MOTION<br><strong>IN / CONTROL</strong></div>
+          </div>
+        </section>
+
+        <section class="overview-strip" aria-label="Setup summary">
+          <div class="overview-stat"><span class="stat-label">BUILD TIME</span><strong>30 to 45 min</strong><small>First assembly</small></div>
+          <div class="overview-stat"><span class="stat-label">SENSOR RATE</span><strong>50 <small>Hz</small></strong><small>20 ms per sample</small></div>
+          <div class="overview-stat"><span class="stat-label">CONNECTION</span><strong>Bluetooth LE</strong><small>ESP32 to browser</small></div>
+          <div class="overview-stat"><span class="stat-label">CALIBRATION</span><strong>Guided</strong><small>Stillness + wrist mapping</small></div>
+        </section>
+
+        <section class="content-section" id="parts">
+          <div class="section-heading"><div><span class="eyebrow">01 / BEFORE YOU START</span><h3>Parts & tools</h3></div><span class="section-index">01 / 09</span></div>
+          <p class="section-lead">Keep the first build simple. Bring up the board over USB before adding a battery or making a permanent enclosure.</p>
+          <div class="parts-layout">
+            <div class="parts-list card-surface">
+              <div class="check-row"><label><input type="checkbox" data-check="esp32"><span class="custom-check"></span><span><strong>ESP32 DevKit V1</strong><small>Use a board with Bluetooth Low Energy support.</small></span></label><span class="part-tag required">REQUIRED</span></div>
+              <div class="check-row"><label><input type="checkbox" data-check="mpu"><span class="custom-check"></span><span><strong>MPU6050 breakout</strong><small>6-axis accelerometer and gyroscope module.</small></span></label><span class="part-tag required">REQUIRED</span></div>
+              <div class="check-row"><label><input type="checkbox" data-check="contacts"><span class="custom-check"></span><span><strong>Three conductive pads</strong><small>Foil, conductive fabric or small metal contacts.</small></span></label><span class="part-tag required">REQUIRED</span></div>
+              <div class="check-row"><label><input type="checkbox" data-check="wires"><span class="custom-check"></span><span><strong>Jumper wires</strong><small>Short flexible wires for I²C and contact signals.</small></span></label><span class="part-tag required">REQUIRED</span></div>
+              <div class="check-row"><label><input type="checkbox" data-check="usb"><span class="custom-check"></span><span><strong>USB data cable</strong><small>A charge-only cable will not flash the board.</small></span></label><span class="part-tag required">REQUIRED</span></div>
+              <div class="check-row"><label><input type="checkbox" data-check="strap"><span class="custom-check"></span><span><strong>Wrist or hand strap</strong><small>Use tape for the first sensor-position test.</small></span></label><span class="part-tag optional">OPTIONAL</span></div>
+              <div class="check-row"><label><input type="checkbox" data-check="battery"><span class="custom-check"></span><span><strong>Protected battery setup</strong><small>Add only after USB testing is complete.</small></span></label><span class="part-tag optional">OPTIONAL</span></div>
+              <div class="parts-progress"><div><span>Parts checklist</span><strong id="partsCount">0 / 7 ready</strong></div><div class="progress-track"><span id="partsProgress"></span></div></div>
+            </div>
+            <aside class="note-card caution-card"><span class="note-symbol">!</span><h4>Power it safely</h4><p>Use the ESP32 USB port for your first build. Do not connect a bare LiPo cell to the 5V pin. For portable use, choose a protected battery and a regulator or a development board designed for battery input.</p><a href="#firmware">Continue to firmware setup <span>↗</span></a></aside>
+          </div>
+        </section>
+
+        <section class="content-section" id="wiring">
+          <div class="section-heading"><div><span class="eyebrow">02 / MAKE THE CONNECTIONS</span><h3>Wire the hardware</h3></div><span class="section-index">02 / 09</span></div>
+          <p class="section-lead">Disconnect USB power while wiring. Check each pin against the table before powering the ESP32.</p>
+          <div class="wiring-card card-surface">
+            <div class="wiring-visual">
+              <div class="wiring-label label-sensor">MPU6050</div>
+              <div class="sensor-board"><div class="sensor-chip">MPU<br><small>6050</small></div><span class="sensor-pin pin-vin">VIN</span><span class="sensor-pin pin-gnd">GND</span><span class="sensor-pin pin-sda">SDA</span><span class="sensor-pin pin-scl">SCL</span></div>
+              <svg class="wire-lines" viewBox="0 0 620 300" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M155 78 C250 78 300 78 402 78" class="wire-red"/><path d="M155 112 C250 112 300 112 402 112" class="wire-black"/><path d="M155 146 C250 146 300 146 402 146" class="wire-blue"/><path d="M155 180 C250 180 300 180 402 180" class="wire-yellow"/>
+                <path d="M402 78 L402 70 M402 112 L402 104 M402 146 L402 138 M402 180 L402 172" class="wire-node"/>
+              </svg>
+              <div class="wiring-label label-esp">ESP32 DEVKIT V1</div>
+              <div class="esp-board"><div class="esp-metal">ESP32<br><small>DEVKIT</small></div><div class="esp-pins"><span>3V3</span><span>GND</span><span>GPIO21</span><span>GPIO22</span><span>GPIO32</span><span>GPIO33</span></div></div>
+              <div class="wire-legend"><span><i class="wire-swatch sw-red"></i>3V3</span><span><i class="wire-swatch sw-black"></i>GND</span><span><i class="wire-swatch sw-blue"></i>SDA</span><span><i class="wire-swatch sw-yellow"></i>SCL</span></div>
+              <div class="contact-callout"><span class="contact-icon">⌁</span><span><strong>Contact pads</strong><small>Thumb → GND · Index → GPIO32 · Middle → GPIO33</small></span></div>
+            </div>
+            <div class="wiring-tables">
+              <div><h4>Sensor wiring</h4><table><thead><tr><th>MPU6050</th><th>ESP32</th></tr></thead><tbody><tr><td>VIN</td><td><span class="pin-chip red">3V3</span></td></tr><tr><td>GND</td><td><span class="pin-chip dark">GND</span></td></tr><tr><td>SDA</td><td><span class="pin-chip blue">GPIO21</span></td></tr><tr><td>SCL</td><td><span class="pin-chip yellow">GPIO22</span></td></tr></tbody></table></div>
+              <div><h4>Contact wiring</h4><table><thead><tr><th>Contact</th><th>ESP32</th></tr></thead><tbody><tr><td>Thumb</td><td><span class="pin-chip dark">GND</span></td></tr><tr><td>Index</td><td><span class="pin-chip green">GPIO32</span></td></tr><tr><td>Middle</td><td><span class="pin-chip green">GPIO33</span></td></tr></tbody></table></div>
+            </div>
+          </div>
+          <div class="two-notes"><div class="inline-note"><strong>Mount the sensor firmly</strong><span>The MPU6050 must move with your hand. If it slips on the strap, calibration will not stay consistent.</span></div><div class="inline-note"><strong>Keep pads separate</strong><span>The thumb pad connects to one contact at a time. Keep foil away from USB, battery and exposed power wiring.</span></div></div>
+        </section>
+
+        <section class="content-section" id="firmware">
+          <div class="section-heading"><div><span class="eyebrow">03 / LOAD THE BOARD</span><h3>Flash the firmware</h3></div><span class="section-index">03 / 09</span></div>
+          <p class="section-lead">The firmware is already in the AirRing repository. Build it with PlatformIO, flash over USB and watch the serial monitor for the sensor status.</p>
+          <div class="firmware-layout">
+            <div class="firmware-main card-surface">
+              <div class="terminal-head"><div class="terminal-dots"><i></i><i></i><i></i></div><span>TERMINAL / PLATFORMIO</span><span class="terminal-os">FEDORA · LINUX</span></div>
+              <div class="terminal-body"><span class="terminal-comment"># Install PlatformIO once</span><code>python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+pipx install platformio</code><span class="terminal-comment"># Build the firmware</span><code>cd AirRing/firmware/airring
+pio run</code><span class="terminal-comment"># Connect the ESP32, then flash</span><code>pio run -t upload</code><span class="terminal-comment"># Open the serial monitor</span><code>pio device monitor</code></div>
+              <div class="terminal-footer"><span><i class="terminal-live"></i> Serial speed: 115200 baud</span><button class="copy-button" data-copy="python3 -m pip install --user pipx\npython3 -m pipx ensurepath\npipx install platformio\ncd AirRing/firmware/airring\npio run\npio run -t upload\npio device monitor">Copy commands ↗</button></div>
+            </div>
+            <div class="firmware-aside"><div class="platform-tabs"><button class="platform-tab selected" data-platform="fedora">Fedora</button><button class="platform-tab" data-platform="ubuntu">Ubuntu</button><button class="platform-tab" data-platform="windows">Windows</button></div><div class="platform-info" id="platformInfo"><strong>Fedora packages</strong><code>sudo dnf install python3 python3-pip git make</code><p>Use a data USB cable. If the board does not appear, check your USB serial driver and user permissions.</p></div><div class="firmware-check"><span class="check-badge">✓</span><span><strong>What success looks like</strong><small>The serial monitor prints “AirRing ready” and the board advertises as AIRRING.</small></span></div></div>
+          </div>
+        </section>
+
+        <section class="content-section" id="connect">
+          <div class="section-heading"><div><span class="eyebrow">04 / ESTABLISH THE LINK</span><h3>Connect your AirRing</h3></div><span class="section-index">04 / 09</span></div>
+          <p class="section-lead">Power the ESP32 and allow the browser to connect to its sensor characteristic. Select the device named AIRRING from the browser chooser.</p>
+          <div class="connect-panel card-surface">
+            <div class="connect-device-art"><div class="device-glow"></div><div class="device-icon"><span class="device-ring"></span><span class="device-core"></span></div><span class="device-name">AIRRING</span><span class="device-subtitle">BLE SENSOR / 50 HZ</span></div>
+            <div class="connect-content"><div class="device-status-line"><span class="status-indicator" id="deviceIndicator"></span><span id="deviceStatus">Waiting for a connection</span></div><h4>Bring the device online.</h4><p>Bluetooth access is requested only when you press connect. Your browser will show a device chooser.</p><div class="connect-actions"><button class="button button-primary" id="connectButton" type="button">Connect AirRing <span>↗</span></button><button class="button button-outline" id="disconnectButton" type="button" disabled>Disconnect</button></div><p class="small-print" id="browserNotice">Connection requires HTTPS and a browser that supports Web Bluetooth.</p><div class="error-box hidden" id="connectError" role="alert"></div></div>
+          </div>
+        </section>
+
+        <section class="content-section" id="readings">
+          <div class="section-heading"><div><span class="eyebrow">05 / CHECK THE SENSOR</span><h3>Live readings</h3></div><span class="section-index">05 / 09</span></div>
+          <div class="reading-toolbar"><p class="section-lead">Watch the raw sensor values update as you move your wrist. Keep the board still first, then rotate it slowly through each axis.</p><div class="stream-state"><span class="stream-dot" id="streamDot"></span><span id="streamLabel">STREAM OFF</span></div></div>
+          <div class="readings-grid">
+            <div class="reading-card card-surface"><div class="reading-card-head"><span>ACCELEROMETER</span><span class="unit-tag">g</span></div><div class="reading-values"><div><small>X</small><strong id="axValue">0.000</strong></div><div><small>Y</small><strong id="ayValue">0.000</strong></div><div><small>Z</small><strong id="azValue">0.000</strong></div></div><div class="mini-bars"><span id="axBar"></span><span id="ayBar"></span><span id="azBar"></span></div></div>
+            <div class="reading-card card-surface"><div class="reading-card-head"><span>GYROSCOPE</span><span class="unit-tag">°/s</span></div><div class="reading-values"><div><small>X</small><strong id="gxValue">0.00</strong></div><div><small>Y</small><strong id="gyValue">0.00</strong></div><div><small>Z</small><strong id="gzValue">0.00</strong></div></div><div class="mini-bars gyro-bars"><span id="gxBar"></span><span id="gyBar"></span><span id="gzBar"></span></div></div>
+            <div class="reading-card status-card card-surface"><div class="reading-card-head"><span>DEVICE HEALTH</span><span class="unit-tag">LIVE</span></div><div class="health-row"><span>Sensor ready</span><strong id="sensorReadyValue" class="health-value">Waiting</strong></div><div class="health-row"><span>Packet rate</span><strong id="rateValue" class="health-value">0.0 Hz</strong></div><div class="health-row"><span>Sequence</span><strong id="sequenceValue" class="health-value">-----</strong></div><div class="health-row"><span>Missed packets</span><strong id="missedValue" class="health-value">0</strong></div></div>
+          </div>
+          <div class="chart-card card-surface"><div class="chart-title"><div><strong>Motion trace</strong><small>Gyroscope X, Y and Z · degrees per second</small></div><span class="chart-live" id="chartLive">NO DATA</span></div><canvas id="motionChart" aria-label="Live gyroscope chart"></canvas><div class="chart-legend"><span><i class="legend-x"></i>GYRO X</span><span><i class="legend-y"></i>GYRO Y</span><span><i class="legend-z"></i>GYRO Z</span></div></div>
+          <div class="contact-live-strip"><div class="contact-live-head"><strong>Contact input</strong><small>Touch each pad to confirm its signal.</small></div><div class="contact-live-state"><div class="contact-state" id="indexLive"><span class="contact-state-dot"></span><span>INDEX <b>OPEN</b></span></div><div class="contact-state" id="middleLive"><span class="contact-state-dot"></span><span>MIDDLE <b>OPEN</b></span></div></div></div>
+        </section>
+
+        <section class="content-section" id="calibration">
+          <div class="section-heading"><div><span class="eyebrow">06 / REMOVE THE DRIFT</span><h3>Calibrate the sensor</h3></div><span class="section-index">06 / 09</span></div>
+          <p class="section-lead">Place AirRing on a steady surface or keep your hand completely still. The calibration collects 100 valid readings, estimates the gyro bias and checks whether the sensor is stable.</p>
+          <div class="calibration-panel card-surface">
+            <div class="calibration-left"><div class="calibration-graphic"><div class="calibration-circle circle-a"></div><div class="calibration-circle circle-b"></div><div class="calibration-target"><span>0.0</span><small>°/s</small></div></div><span class="calibration-kicker">STATIONARY GYRO BIAS</span><h4 id="calibrationTitle">Ready when you are.</h4><p id="calibrationDescription">Keep the sensor still. Calibration begins when you start the 100-sample check.</p><button class="button button-primary" id="calibrateButton" type="button" disabled>Start calibration <span>↗</span></button><div class="calibration-progress"><div class="progress-track"><span id="calibrationProgress"></span></div><div><span id="calibrationCount">0 / 100 samples</span><span id="calibrationTime">About 2 sec</span></div></div></div>
+            <div class="calibration-right"><div class="calibration-result-head"><span>CALIBRATION RESULT</span><span class="result-state" id="calibrationState">NOT RUN</span></div><div class="bias-grid"><div><small>BIAS X</small><strong id="biasX">--.--</strong><em>°/s</em></div><div><small>BIAS Y</small><strong id="biasY">--.--</strong><em>°/s</em></div><div><small>BIAS Z</small><strong id="biasZ">--.--</strong><em>°/s</em></div></div><div class="stability-check"><span class="stability-icon" id="stabilityIcon">·</span><span><strong id="stabilityTitle">Stability not checked</strong><small id="stabilityDetail">A stable 100-sample window is required.</small></span></div><div class="calibration-tip"><strong>Before you start</strong><p>Do not touch the contacts or move the strap during the sample window. If the stability check fails, secure the sensor and repeat.</p></div></div>
+          </div>
+        </section>
+
+        <section class="content-section" id="cursor-lab">
+          <div class="section-heading"><div><span class="eyebrow">07 / MAP YOUR WRIST</span><h3>Cursor lab</h3></div><span class="section-index">07 / 09</span></div>
+          <p class="section-lead">Map two wrist rotation axes to horizontal and vertical pointer movement. You can detect them with guided motion or select them manually.</p>
+          <div class="cursor-lab-grid">
+            <div class="orientation-card card-surface"><div class="lab-card-head"><div><span class="eyebrow">ORIENTATION MAPPING</span><h4>Teach AirRing the directions.</h4></div><span class="lab-chip">2 MOVES</span></div><div class="capture-step"><div class="capture-icon arrow-right">↗</div><div><strong>Move the pointer right</strong><small>Hold the strap and make the wrist motion you want to move the cursor to the right.</small></div><button class="capture-button" id="captureXButton" type="button" disabled>Capture</button></div><div class="capture-result" id="captureXResult">Horizontal axis not detected</div><div class="capture-step"><div class="capture-icon arrow-down">↘</div><div><strong>Move the pointer down</strong><small>Make the wrist motion you want to move the cursor downward.</small></div><button class="capture-button" id="captureYButton" type="button" disabled>Capture</button></div><div class="capture-result" id="captureYResult">Vertical axis not detected</div><div class="manual-map"><div class="manual-map-head"><strong>Fine tune manually</strong><small>Axis selection and direction are exported in your profile.</small></div><div class="map-controls"><label>Horizontal axis<select id="xAxis"><option value="0">Gyro X</option><option value="1">Gyro Y</option><option value="2" selected>Gyro Z</option></select></label><label>Vertical axis<select id="yAxis"><option value="0" selected>Gyro X</option><option value="1">Gyro Y</option><option value="2">Gyro Z</option></select></label><label class="toggle-control"><input type="checkbox" id="invertX"><span class="toggle-ui"></span><span>Invert horizontal</span></label><label class="toggle-control"><input type="checkbox" id="invertY" checked><span class="toggle-ui"></span><span>Invert vertical</span></label></div></div></div>
+            <div class="cursor-preview-card card-surface"><div class="lab-card-head"><div><span class="eyebrow">LIVE POINTER PREVIEW</span><h4>Test the response.</h4></div><span class="preview-ready" id="previewReady">WAITING</span></div><div class="preview-surface" id="previewSurface"><div class="preview-grid"></div><div class="preview-crosshair"></div><div class="preview-cursor" id="previewCursor"><span></span></div><div class="preview-hint" id="previewHint">Move your wrist to move the dot</div><div class="preview-coordinates" id="previewCoordinates">X 000 · Y 000</div></div><div class="tuning-control"><label for="sensitivityRange"><span>Sensitivity</span><strong id="sensitivityValue">2.8</strong></label><input type="range" id="sensitivityRange" min="0.2" max="8" step="0.1" value="2.8"></div><div class="tuning-control"><label for="deadzoneRange"><span>Dead zone</span><strong><span id="deadzoneValue">5.0</span> °/s</strong></label><input type="range" id="deadzoneRange" min="0" max="20" step="0.5" value="5"></div><div class="preview-footer"><span>Browser preview only</span><span>Desktop app moves the actual pointer</span></div></div>
+          </div>
+          <div class="inline-note note-space"><strong>Why calibrate twice?</strong><span>This page measures the sensor and helps you choose the mapping. The desktop app takes a fresh gyro bias when it connects, which accounts for small changes in how you mount the strap.</span></div>
+        </section>
+
+        <section class="content-section" id="contacts">
+          <div class="section-heading"><div><span class="eyebrow">08 / CHECK THE INPUTS</span><h3>Test your contacts</h3></div><span class="section-index">08 / 09</span></div>
+          <p class="section-lead">Use the thumb contact to close one circuit at a time. The page should show the matching input changing from open to active.</p>
+          <div class="contact-test-grid">
+            <div class="contact-test-card card-surface"><div class="finger-diagram"><span class="finger thumb-finger">T</span><span class="finger index-finger">I</span><span class="finger middle-finger">M</span><i class="contact-link link-index"></i><i class="contact-link link-middle"></i></div><div class="contact-test-copy"><span class="eyebrow">INPUT 01</span><h4>Thumb + index</h4><p>Touch the thumb pad to the index pad. This should hold the left mouse button while contact remains active.</p><div class="test-state" id="indexTestState"><span class="status-dot"></span><strong>Waiting for contact</strong></div></div></div>
+            <div class="contact-test-card card-surface"><div class="finger-diagram"><span class="finger thumb-finger">T</span><span class="finger index-finger">I</span><span class="finger middle-finger">M</span><i class="contact-link link-index"></i><i class="contact-link link-middle"></i></div><div class="contact-test-copy"><span class="eyebrow">INPUT 02</span><h4>Thumb + middle</h4><p>Touch the thumb pad to the middle pad. This should trigger one right click when the contact closes.</p><div class="test-state" id="middleTestState"><span class="status-dot"></span><strong>Waiting for contact</strong></div></div></div>
+          </div>
+          <div class="contact-reminder"><span>!</span><p>Check that the input returns to open as soon as you separate the pads. Do not let foil touch any power pin.</p></div>
+        </section>
+
+        <section class="content-section finish-section" id="finish">
+          <div class="section-heading"><div><span class="eyebrow">09 / SAVE YOUR SETUP</span><h3>Save & start using AirRing</h3></div><span class="section-index">09 / 09</span></div>
+          <p class="section-lead">Export the calibration profile, apply it to the desktop project and start the desktop companion. The website does not replace the desktop input application.</p>
+          <div class="finish-grid">
+            <div class="profile-card card-surface"><div class="profile-card-top"><div class="profile-file-icon">{ }</div><div><span class="eyebrow">CALIBRATION PROFILE</span><h4>airring-profile.json</h4><p>Axis mapping, sensitivity, dead zone and sensor bias record.</p></div></div><div class="profile-preview" id="profilePreview"><span>PROFILE STATUS</span><strong id="profileStatus">Waiting for calibration</strong><small id="profileSummary">Connect the device and complete the stationary calibration to enable export.</small></div><button class="button button-primary full-button" id="downloadProfileButton" type="button" disabled>Download profile <span>↓</span></button><label class="button button-outline full-button import-button" for="profileImportInput">Import a profile to preview <span>↑</span></label><input class="visually-hidden" id="profileImportInput" type="file" accept="application/json,.json"><div class="import-status" id="importStatus" aria-live="polite"></div></div>
+            <div class="finish-steps"><div class="finish-step"><span class="finish-number">01</span><div><strong>Install the desktop companion</strong><small>From the repository root, enter `desktop`, create a virtual environment and run `pip install -e .`.</small><code>python -m airring</code></div></div><div class="finish-step"><span class="finish-number">02</span><div><strong>Apply the exported profile</strong><small>Run the included importer from the repository root. It updates axis, direction, sensitivity and dead zone in the desktop config.</small><code>python desktop/tools/apply_calibration_profile.py airring-profile.json</code></div></div><div class="finish-step"><span class="finish-number">03</span><div><strong>Connect and calibrate again</strong><small>Start AirRing. The desktop app connects over BLE and takes a fresh stationary gyro calibration before pointer movement.</small><code>cd desktop && python -m airring</code></div></div><div class="finish-step"><span class="finish-number">04</span><div><strong>Test pointer and contacts</strong><small>Adjust sensitivity if needed. Confirm left click, drag and right click before using the wearable for daily work.</small></div></div></div>
+          </div>
+          <div class="finish-banner"><div><span class="eyebrow">READY FOR YOUR DESKTOP</span><h4>Move naturally. Fine tune as you go.</h4><p>The browser preview is for setup. System-wide pointer control runs in the Python desktop app.</p></div><a class="button button-dark" href="https://github.com/K2K22K2K22/AirRing" target="_blank" rel="noreferrer">Open AirRing repository <span>↗</span></a></div>
+        </section>
+
+        <footer class="site-footer"><div class="footer-brand"><span class="brand-mark small"><span></span></span><strong>AIRRING</strong><span>WEARABLE INPUT PROJECT</span></div><div class="footer-links"><a href="https://github.com/K2K22K2K22/AirRing/blob/main/docs/ASSEMBLY.md" target="_blank" rel="noreferrer">Assembly notes</a><a href="https://github.com/K2K22K2K22/AirRing/blob/main/docs/PROTOCOL.md" target="_blank" rel="noreferrer">BLE protocol</a><a href="https://github.com/K2K22K2K22/AirRing/blob/main/docs/TROUBLESHOOTING.md" target="_blank" rel="noreferrer">Troubleshooting</a></div><span class="footer-copy">Built for the hands that use it.</span></footer>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

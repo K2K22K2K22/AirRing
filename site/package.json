@@ -1,0 +1,11 @@
+{
+  "name": "airring-setup-station",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A local-first setup, live diagnostics and calibration station for AirRing.",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "serve": "python3 -m http.server 4173"
+  }
+}
