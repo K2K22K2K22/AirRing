@@ -30,14 +30,12 @@ The page is static and has no build step. Its JavaScript modules run in the brow
 
 ## Publish on GitHub Pages
 
-1. Add the `site` directory and `.github/workflows/deploy-pages.yml` to the AirRing repository.
-2. Push the changes to `main`.
-3. Open repository Settings, then Pages.
-4. Set the publishing source to **GitHub Actions**.
-5. Open Actions and inspect the **Deploy AirRing Setup** run.
-6. After deployment, open `https://k2k22k2k22.github.io/AirRing/`.
+Pages must be enabled before the workflow can publish. The default `GITHUB_TOKEN` cannot enable it, so do this once in repository settings:
 
-The workflow publishes the contents of `site/` and does not replace the existing desktop and firmware checks workflow.
+1. Open repository Settings, then Pages.
+2. Set **Build and deployment > Source** to **GitHub Actions**.
+
+Then push the `site` directory and `.github/workflows/deploy-pages.yml` to `main`. The **Deploy AirRing Setup** run publishes `site/` and leaves the desktop and firmware checks workflow alone. Once it finishes, the site is at `https://k2k22k2k22.github.io/AirRing/`.
 
 ## Browser requirements
 
